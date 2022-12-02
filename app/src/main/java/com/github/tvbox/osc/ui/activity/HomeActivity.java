@@ -55,6 +55,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -98,6 +99,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        preInit();
         EventBus.getDefault().register(this);
         ControlManager.get().startServer();
         initView();
@@ -109,6 +111,18 @@ public class HomeActivity extends BaseActivity {
             useCacheConfig = bundle.getBoolean("useCache", false);
         }
         initData();
+    }
+
+    private void preInit() {
+        if (!Hawk.contains(HawkConfig.HOME_REC)) {
+            Hawk.put(HawkConfig.HOME_REC, 2);
+        }
+        if (!Hawk.contains(HawkConfig.API_URL)) {
+            Hawk.put(HawkConfig.API_HISTORY, Arrays.asList(
+                    "https://ghproxy.com/https://raw.githubusercontent.com/pqixing/TVBoxOSC/main/asessts/tvbox_test.txt"
+                    , "https://ghproxy.com/https://raw.githubusercontent.com/pqixing/TVBoxOSC/main/asessts/tvbox_release.txt"));
+            Hawk.put(HawkConfig.API_URL, "https://ghproxy.com/https://raw.githubusercontent.com/pqixing/TVBoxOSC/main/asessts/tvbox_release.txt");
+        }
     }
 
     private void initView() {
